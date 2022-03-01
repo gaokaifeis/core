@@ -1,4 +1,3 @@
-// 定义插槽的枚举
 export const enum SlotFlags {
   /**
    * Stable slots that only reference slot props or context state. The slot
@@ -26,7 +25,6 @@ export const enum SlotFlags {
 
 /**
  * Dev only
- * 根据SlotFlags类型的展示文本
  */
 export const slotFlagsText = {
   [SlotFlags.STABLE]: 'STABLE',

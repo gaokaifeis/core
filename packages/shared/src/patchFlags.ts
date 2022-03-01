@@ -76,16 +76,19 @@ export const enum PatchFlags {
 
   /**
    * Indicates a fragment whose children order doesn't change.
+   * 指示其子顺序不变的片段。
    */
   STABLE_FRAGMENT = 1 << 6,
 
   /**
    * Indicates a fragment with keyed or partially keyed children
+   * 指示带有键控或部分键控子级的片段
    */
   KEYED_FRAGMENT = 1 << 7,
 
   /**
    * Indicates a fragment with unkeyed children.
+   * 指示具有未键控子项的片段。
    */
   UNKEYED_FRAGMENT = 1 << 8,
 
@@ -94,13 +97,16 @@ export const enum PatchFlags {
    * directives (onVnodeXXX hooks). since every patched vnode checks for refs
    * and onVnodeXXX hooks, it simply marks the vnode so that a parent block
    * will track it.
+   * 表示只需要非道具修补的元素，例如ref 或指令（onVnodeXXX 挂钩）。由于每个修补的 vnode 都会检查 refs 和 onVnodeXXX 钩子，它只是标记 vnode，以便父块跟踪它。
    */
   NEED_PATCH = 1 << 9,
 
   /**
    * Indicates a component with dynamic slots (e.g. slot that references a v-for
    * iterated value, or dynamic slot names).
+   * 表示具有动态插槽的组件（例如，引用 v-for 迭代值的插槽或动态插槽名称）。
    * Components with this flag are always force updated.
+   * 带有这个标志的组件总是被强制更新
    */
   DYNAMIC_SLOTS = 1 << 10,
 
@@ -108,6 +114,7 @@ export const enum PatchFlags {
    * Indicates a fragment that was created only because the user has placed
    * comments at the root level of a template. This is a dev-only flag since
    * comments are stripped in production.
+   * 表示仅因为用户在模板的根级别放置评论而创建的片段。这是一个仅限开发人员的标志，因为注释在生产中被剥离。
    */
   DEV_ROOT_FRAGMENT = 1 << 11,
 
@@ -117,11 +124,13 @@ export const enum PatchFlags {
    * bitwise operators (bitwise matching should only happen in branches where
    * patchFlag > 0), and are mutually exclusive. When checking for a special
    * flag, simply check patchFlag === FLAG.
+   * 特殊标志是负整数。它们永远不会使用按位运算符进行匹配（按位匹配应该只发生在 patchFlag > 0 的分支中），并且是互斥的。检查特殊标志时，只需检查 patchFlag === FLAG。
    */
 
   /**
    * Indicates a hoisted static vnode. This is a hint for hydration to skip
    * the entire sub tree since static content never needs to be updated.
+   * 表示已提升的静态 vnode。这是一个提示水合作用跳过整个子树，因为静态内容永远不需要更新。
    */
   HOISTED = -1,
   /**
@@ -130,6 +139,7 @@ export const enum PatchFlags {
    * when encountering non-compiler generated slots (i.e. manually written
    * render functions, which should always be fully diffed)
    * OR manually cloneVNodes
+   * 一个特殊标志，指示差异算法应该退出优化模式。例如，在遇到非编译器生成的插槽时由 renderSlot() 创建的块片段（即手动编写的渲染函数，应该始终完全区分）或手动克隆VNodes
    */
   BAIL = -2
 }
