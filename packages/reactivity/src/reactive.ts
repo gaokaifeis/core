@@ -21,12 +21,13 @@ export const enum ReactiveFlags {
   RAW = '__v_raw'
 }
 
+// 扩展被代理对象的标志属性声明
 export interface Target {
-  [ReactiveFlags.SKIP]?: boolean
-  [ReactiveFlags.IS_REACTIVE]?: boolean
-  [ReactiveFlags.IS_READONLY]?: boolean
+  [ReactiveFlags.SKIP]?: boolean //是否是不可代理对象，被markRaw()过则为true
+  [ReactiveFlags.IS_REACTIVE]?: boolean //是否被reactive代理过
+  [ReactiveFlags.IS_READONLY]?: boolean //是否被readonly代理过
   [ReactiveFlags.IS_SHALLOW]?: boolean
-  [ReactiveFlags.RAW]?: any
+  [ReactiveFlags.RAW]?: any  //被代理的原对象 const p = reactive(obj); p[ReactiveFlags.RAW] === obj 为true
 }
 
 export const reactiveMap = new WeakMap<Target, any>()
