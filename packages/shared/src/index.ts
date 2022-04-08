@@ -14,25 +14,30 @@ export * from './looseEqual'
 export * from './toDisplayString'
 export * from './typeUtils'
 
+// 根据环境设置空对象
 export const EMPTY_OBJ: { readonly [key: string]: any } = __DEV__
   ? Object.freeze({})
   : {}
+
+// 空数组
 export const EMPTY_ARR = __DEV__ ? Object.freeze([]) : []
 
 export const NOOP = () => {}
 
 /**
  * Always return false.
+ * 总是返回false
  */
 export const NO = () => false
 
+// 判断前缀为on且on后面紧跟的非小写字母
 const onRE = /^on[^a-z]/
 export const isOn = (key: string) => onRE.test(key)
 
 export const isModelListener = (key: string) => key.startsWith('onUpdate:')
 
 export const extend = Object.assign
-
+// 删除某个元素
 export const remove = <T>(arr: T[], el: T) => {
   const i = arr.indexOf(el)
   if (i > -1) {
@@ -41,22 +46,29 @@ export const remove = <T>(arr: T[], el: T) => {
 }
 
 const hasOwnProperty = Object.prototype.hasOwnProperty
+// 判断是否存在某个属性
 export const hasOwn = (
   val: object,
   key: string | symbol
 ): key is keyof typeof val => hasOwnProperty.call(val, key)
 
 export const isArray = Array.isArray
+// 判断是否为Map
 export const isMap = (val: unknown): val is Map<any, any> =>
   toTypeString(val) === '[object Map]'
+// 判断是否为Set
 export const isSet = (val: unknown): val is Set<any> =>
   toTypeString(val) === '[object Set]'
-
+// 判断是否为Date
 export const isDate = (val: unknown): val is Date => val instanceof Date
+// 判断是否为Function
 export const isFunction = (val: unknown): val is Function =>
   typeof val === 'function'
+// 判断是否为string
 export const isString = (val: unknown): val is string => typeof val === 'string'
+// 判断是否为Symbol
 export const isSymbol = (val: unknown): val is symbol => typeof val === 'symbol'
+// 判断是否为对象
 export const isObject = (val: unknown): val is Record<any, any> =>
   val !== null && typeof val === 'object'
 
@@ -67,12 +79,12 @@ export const isPromise = <T = any>(val: unknown): val is Promise<T> => {
 export const objectToString = Object.prototype.toString
 export const toTypeString = (value: unknown): string =>
   objectToString.call(value)
-
+// 截取前八位后及最后一位
 export const toRawType = (value: unknown): string => {
   // extract "RawType" from strings like "[object RawType]"
   return toTypeString(value).slice(8, -1)
 }
-
+// 判断是否为普通对象
 export const isPlainObject = (val: unknown): val is object =>
   toTypeString(val) === '[object Object]'
 
@@ -93,7 +105,7 @@ export const isReservedProp = /*#__PURE__*/ makeMap(
 export const isBuiltInDirective = /*#__PURE__*/ makeMap(
   'bind,cloak,else-if,else,for,html,if,model,on,once,pre,show,slot,text,memo'
 )
-
+// 缓存函数
 const cacheStringFunction = <T extends (str: string) => string>(fn: T): T => {
   const cache: Record<string, string> = Object.create(null)
   return ((str: string) => {
@@ -105,6 +117,7 @@ const cacheStringFunction = <T extends (str: string) => string>(fn: T): T => {
 const camelizeRE = /-(\w)/g
 /**
  * @private
+ * 用来把横线分割改成驼峰
  */
 export const camelize = cacheStringFunction((str: string): string => {
   return str.replace(camelizeRE, (_, c) => (c ? c.toUpperCase() : ''))
@@ -120,6 +133,7 @@ export const hyphenate = cacheStringFunction((str: string) =>
 
 /**
  * @private
+ * 将第一个字母大写
  */
 export const capitalize = cacheStringFunction(
   (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
@@ -133,15 +147,16 @@ export const toHandlerKey = cacheStringFunction((str: string) =>
 )
 
 // compare whether a value has changed, accounting for NaN.
+// 通过Object.is判断对象是否变更
 export const hasChanged = (value: any, oldValue: any): boolean =>
   !Object.is(value, oldValue)
-
+// 批量执行fns，参数为arg
 export const invokeArrayFns = (fns: Function[], arg?: any) => {
   for (let i = 0; i < fns.length; i++) {
     fns[i](arg)
   }
 }
-
+// 通过Object.defineProperty定义对象的值
 export const def = (obj: object, key: string | symbol, value: any) => {
   Object.defineProperty(obj, key, {
     configurable: true,
@@ -149,7 +164,7 @@ export const def = (obj: object, key: string | symbol, value: any) => {
     value
   })
 }
-
+// 转换val为NUmber
 export const toNumber = (val: any): any => {
   const n = parseFloat(val)
   return isNaN(n) ? val : n
